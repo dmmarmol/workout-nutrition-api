@@ -1,2 +1,5 @@
 ./pyfatsecret
 ./pyfatsecret/**
+
+.env
+!.env.example

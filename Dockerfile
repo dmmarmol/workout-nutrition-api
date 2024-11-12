@@ -1,11 +1,16 @@
-FROM python:3.9
+FROM python:3.11.9
 
 WORKDIR /nutrition-api/src
 
-COPY . ./
+# Copy requirements.txt first to leverage Docker caching
+COPY requirements.txt ./
 
-RUN pip install --no-cache-dir pipenv && pipenv install
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# COPY *.py .
+COPY . .
 
-CMD ["python", "./main.py"]
+EXPOSE 8000
+
+# CMD ["python", "./main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

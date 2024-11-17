@@ -18,14 +18,14 @@ class FatSecretController:
         is_token_expired = time.time() >= self._expires_in
         # Token exist
         if self._access_token and is_token_expired is False:
-            print("Auth token exist. Skiping.")
+            print("[DEBUG] Auth token exist. Skiping.")
             return
 
         # Token don't exist or is already expired
         if self._access_token is None or is_token_expired:
 
             try:
-                print("Trying to get auth token...")
+                print("[DEBUG] Trying to get auth token...")
                 #
                 # Using native python request.post method
                 # to avoid dealing with a different BASE_URL for this request
@@ -56,7 +56,7 @@ class FatSecretController:
                 raise ValueError(error_detail) from e
 
     def _get_auth_headers(self):
-        print("Creating auth headers...")
+        print("[DEBUG] Creating auth headers...")
         self._get_access_token()
 
         if self._access_token is None:
@@ -78,7 +78,7 @@ class FatSecretController:
         }
         try:
             response = Request().get(
-                endpoint="server.api", params=params, headers=headers, debug=True
+                endpoint="server.api", params=params, headers=headers
             )
             return response.json()
 
@@ -92,4 +92,4 @@ if __name__ == "__main__":
     query = input("Enter food name for test")
     instance = FatSecretController()
     response = instance.search_food(query=query)
-    print("Response\n", response)
+    print("[DEBUG] Response\n", response)

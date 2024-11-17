@@ -38,10 +38,10 @@ class Request:
         )
 
         if debug:
-            print(response.url)
-            print(response.headers)
-            print(response.raw)
-            print(response.request)
+            print(f"[DEBUG] {response.url}")
+            print(f"[DEBUG] {response.headers}")
+            print(f"[DEBUG] {response.raw}")
+            print(f"[DEBUG] {response.request}")
 
         response.raise_for_status()
         return response

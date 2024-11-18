@@ -63,3 +63,10 @@ container-build:
 
 container-stop:
 	docker-compose stop
+
+container-down:
+	docker-compose down -v
+
+container-restart:
+	make container-stop
+	make start

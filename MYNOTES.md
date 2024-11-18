@@ -31,9 +31,10 @@ An actual macro tracker app with an authentication required API that we can use 
 
 ## Roadmap
 
-- Using FatSecret Api search method, develop a connection with silent refresh between the NutritionApp and the FatSecret Api
-- Perform search queries by search_term to get food information from the API
-- Create a firebase project to hold the databse
+- [x] Using FatSecret Api search method, develop a connection with silent refresh between the NutritionApp and the FatSecret Api
+- [x] Perform search queries by search_term to get food information from the API
+- [x] Search for a solution to host the project database:
+    - Solution was to use SQL inna docker container
 - Develop a Databse Model to support food logging
 - Log the first food with their macronutrients
 - Calculate the daily calories consumed

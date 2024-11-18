@@ -1,10 +1,14 @@
-IMAGE_NAME=nutrition-api
+IMAGE_NAME=nutrition-api-container
 IMAGE_VERSION=0.0.3
 HOST_PORT=6001
 CONTAINER_PORT=8000
 HOST_SOURCE_DIR=$(shell pwd)/src
 CONTAINER_SOURCE_DIR=/nutrition-api/src
-ENV_FILE_PATH=$(shell pwd)/../.env
+ENV_FILE_PATH=$(shell pwd)/.env
+
+# ========================================
+# Standalone Docker Container Layer
+# ========================================
 
 build:
 	docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
@@ -46,3 +50,16 @@ prune:
 
 req:
 	pip freeze > requirements.txt
+
+# ========================================
+# Docker Compose Layer
+# ========================================
+
+start:
+	docker-compose up -d
+
+container-build:
+	docker-compose build
+
+container-stop:
+	docker-compose stop

@@ -8,9 +8,14 @@ COPY requirements.txt ./
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# This instruction is commented to fix an issue with volume creation
+# COPY . .
 
 EXPOSE 8000
 
-# CMD ["python", "./main.py"]
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Uncomment for PROD
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# FastAPI (via uvicorn) does not automatically reload files unless explicitly told to.
+# When using mounted volumes during development, use the --reload option:
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

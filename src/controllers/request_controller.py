@@ -3,6 +3,7 @@ import requests
 from config import BASE_URL  # Import the globally defined BASE_URL
 from fastapi import HTTPException
 from typing import Literal, TypedDict, Optional, Union, Dict
+from .utils_controller import Utils
 
 EndpointParam = Literal["server.api"]
 MethodParam = Literal["food_entries.get.v2", "foods.search.v3"]
@@ -38,10 +39,10 @@ class Request:
         )
 
         if debug:
-            print(f"[DEBUG] {response.url}")
-            print(f"[DEBUG] {response.headers}")
-            print(f"[DEBUG] {response.raw}")
-            print(f"[DEBUG] {response.request}")
+            Utils.debug(f"Url {response.url}")
+            Utils.debug(f"Headers {response.headers}")
+            Utils.debug(f"Raw {response.raw}")
+            Utils.debug(f"Request {response.request}")
 
         response.raise_for_status()
         return response

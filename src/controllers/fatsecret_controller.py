@@ -2,6 +2,7 @@ import time
 from config import BASE_URL, API_CLIENT_ID, API_CLIENT_SECRET
 from .request_controller import Request, MethodParam, RequestParams
 from requests import Response, exceptions, post, auth
+from .utils_controller import Utils
 
 
 class FatSecretController:
@@ -18,14 +19,14 @@ class FatSecretController:
         is_token_expired = time.time() >= self._expires_in
         # Token exist
         if self._access_token and is_token_expired is False:
-            print("[DEBUG] Auth token exist. Skiping.")
+            Utils.debug("Auth token exist. Skiping.")
             return
 
         # Token don't exist or is already expired
         if self._access_token is None or is_token_expired:
 
             try:
-                print("[DEBUG] Trying to get auth token...")
+                Utils.debug("Trying to get auth token...")
                 #
                 # Using native python request.post method
                 # to avoid dealing with a different BASE_URL for this request
@@ -40,7 +41,7 @@ class FatSecretController:
                 )
                 response.raise_for_status()
 
-                print(
+                Utils.debug(
                     f"Auth was successful. Response stauts is: {response.status_code}"
                 )
 
@@ -48,7 +49,7 @@ class FatSecretController:
                 access_token = json_response.get("access_token")
                 expires_in = json_response.get("expires_in")
 
-                print(f"New access token: {access_token}")
+                Utils.debug(f"New access token: {access_token}")
                 self._access_token = access_token
                 self._expires_in = time.time() + expires_in
             except exceptions.HTTPError as e:
@@ -56,14 +57,14 @@ class FatSecretController:
                 raise ValueError(error_detail) from e
 
     def _get_auth_headers(self):
-        print("[DEBUG] Creating auth headers...")
+        Utils.debug("Creating auth headers...")
         self._get_access_token()
 
         if self._access_token is None:
             raise ValueError("An access token is required for this type of request.")
 
         headers = {"Authorization": f"Bearer {self._access_token}"}
-        print(f"Request headers are: {headers}")
+        Utils.debug(f"Request headers are: {headers}")
         return headers
 
     def search_food(self, query: str):
@@ -77,6 +78,7 @@ class FatSecretController:
             "format": "json",
         }
         try:
+            Utils.debug(f"search food by: {query}")
             response = Request().get(
                 endpoint="server.api", params=params, headers=headers
             )
@@ -92,4 +94,4 @@ if __name__ == "__main__":
     query = input("Enter food name for test")
     instance = FatSecretController()
     response = instance.search_food(query=query)
-    print("[DEBUG] Response\n", response)
+    Utils.debug("Response\n", response)

@@ -1,3 +1,7 @@
+# Workout Nutrtition API
+
+Python practice project with the goal of creating a Macronutrient logger API using already existing services such as FatSecret and Open Food Facts.
+
 # Container
 
 Initiate docker containers
